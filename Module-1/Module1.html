@@ -14,7 +14,39 @@
     <div id="Info">
         <div id="Task1">
             <h1>Project Management and Documentation</h1>
-            <p>Some content</p>
+            <p>
+                Project management is the planning and organization of a company's resources to move a specific task, event, or duty toward completion.<br> Generally speaking, the project management process includes the following stages: planning, initiation,
+                execution, monitoring, and closing.<br> This process isat times very bulky as one records every detail from start to completion but with the ever changing technology, now we have a tool in the form of a Version Control System known as
+                Git and Github that are designed to allow collaboration between multiple people on the same project while at the same time recording all progress on a project.<br> During my time at Gearbox, I was exposed to these Version Control Systems
+                through the recording of all my activities and projects on Github in the form of a website and code files that I would send to or update using Git and Github.<br> Now that we understand the general overview, what is Git and Github, what
+                are thier differences and how do they work together.<br>
+                <strong>GitHub</strong> is a cloud-based platform where you can work together with others to write code. In simple terms we can say it is in the form of a website or app or whatever platform that you use to collaborate.<br>
+                <strong>Git </strong>is a version control system that intelligently tracks changes in files from an individual or many people collaborating on the same project.In simple terms we can say it is the brain that allows gitub to function.<br>                The two work together in that GitHub acts as the interface to the user while Git is the actual version controller working beneath the interface. Most of the time we use GitHub from our local machines through an integrated Development Environment
+                such as VScode. To make this possible,we use commands on the terminal to tell Git what to do with our code or files. Let's Explore some of these commands and terms used on our Terminal:
+                <ul>
+                    <li><strong>Branching: </strong>It is the process of copying all the code into a new workspace in order to edit the code and test it without affecting the original code. Once all the changes have been made, this code is merged with the
+                        master branch.</li>
+                    <li><strong>Merging: </strong>It is the process of combining the main branch and the feature branch such that the main branch's content will be overwritten by the feature branch on code locations where differences exist.
+                    </li>
+                    <li><strong>Git Pull: </strong>It is the process of updating your code on your local machine by bringing down the changes of the code on GitHub to your local machine so that your code stays up to date as you work on it.</li>
+                    <li><strong>Git Push: </strong>It is the process of sending your code to GitHub from your local machine in order to update the code on GitHub. It's the opposite of git pull</li>
+                    <li><strong>Cloning: </strong>The process of copying a whole repositiory from GitHub into your local machine in order to personally(locally) work on it.</li>
+                    <li><strong>Forking: </strong>It is the process of copying someone else's repository into your own repository. It's done on GitHub.</li>
+                    <li><strong>Git add: </strong>The process of telling Git to stage your changes.(Track them)</li>
+                    <li><strong>Git Commit: </strong>The process of attaching a message for each change you've made on your local code that you would wih to push to Github.</li>
+                    <li><strong>Pull Request: </strong>Asking for approval from owner on repository to merge your feature branch to the main branch.</li>
+                </ul>
+                The git workflow can be summarized into:
+                <ol>
+                    <li>Write Code on local machine or Clone Repository then make changes on the code</li>
+                    <li>Stage Changes(Git Add)</li>
+                    <li>Git Commit-Commit the changes(Adding a message explaining them)</li>
+                    <li>Push Changes to Github(Git push)</li>
+                    <li>Make a pull request-Requst for merging</li>
+                    <li>Merging-done on GitHub once all the changes have arrived.</li>
+                </ol>
+                The above describes how the entire doumentation process for the attachment period will be done.
+            </p>
         </div>
         <div id="Task2">
             <h1>Introduction to embedded systems</h1>
@@ -43,7 +75,20 @@
         <div id=" Task8 ">
             <h1>Blink LED using Pico, C/C++ SDK</h1>
             <p>Some content</p>
+            <pre>
+                <code>        
+            from time import sleep
 
+            led=Pin(26,Pin.OUT)
+            print("Hello World")
+
+            while True:
+                led.value(1)
+                sleep(1)
+                led.value(0)
+                sleep(1)
+                </code>
+              </pre>
         </div>
     </div>
 
