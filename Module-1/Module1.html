@@ -178,7 +178,91 @@
                         </div>
                     </li>
                     <li>
-                        <strong>IN4001 Schottky Diode - </strong>
+                        <strong>IN4001 Schottky Diode - </strong> This is a semiconductor device that is is used to allow current flow in only one direction.The side which is marked by a strip indicates the side that is to be connected to the positive
+                        terminal.
+                        <br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li><strong>LEDs(Red,Blue,Yellow) - </strong>Light Emmitting Diodes are small devices that produce light acoording to their color when connected to a voltage source usually 3.3 volts and below but varies depending on the led color with
+                        red requiring the least voltage.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Jumper Cables(M-M, M-F, F-F) - </strong> They are wires with conector pins on their ends that are used to quickly make electrical connections on the breadboard linking other devices without the need for soldering.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Potentiometer(10k) - </strong> This is a variable resistor that allow it to produce an analog volatage ranging from 0 to VCC.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li>
+                        <strong>HC-SR04 Ultrasonic Distance Sensor - 
+                        </strong> This is a device that is used to measure distance of objects without contact.It's based on echos as it sends a signal and receives its echo then measures the time between sending and receiving
+                        which is used to calculate the distance.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li>
+                        <strong>HC-SR501 - </strong> This is a motion sensor that produces a signal once an object moves within its sensing radius. It is usually used together with devices such as lamps that light up when someone enters a room.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li><strong>RFID Card Reader/ Detector Module Kit - </strong> Radio Frequency Identification comprises of a tag and a reader. The reader produces a radio frequency that is sent back from the tag and reprensents a character key that is
+                        unique for that particular tag. This is usually used in access control systems and even in storing changable information such as bank balances on credit cards that are updated when we make a puchase and pay with our cards.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li><strong>Micro Servo 9g TS180 Degree - </strong> This is a small servo motor that can rotate 180 degrees, 90 degrees in each direction. It can easily be controlled by code using the appropriate servo library.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li><strong>IR Infrared sensor module - </strong> It is a light sensor that has a transmitter and receiver tubes which send a frequency of Infrared light and reads the reflected signal and determines its value between the thresholds you
+                        give it e.g black and white.It is usually used in line following robots<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li><strong>IR Remote Control Module Kit - </strong> Latest infrared wireless remote control kit consists of Mini Slim 38KHz IR remote control and infrared receiver modules, Mini Slim infrared remote control with 17 function keys, firing
+                        distances of up to 8 meters, ideal for a variety of devices in the control room.This IR Remote Control Kit is ideal for implementing an IR remote control for many projects including controlling robotics since the remote includes
+                        direction keys and basic number keys without all the unnecessary key clutter found on remotes used for TV style control.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li>
+                        <strong>5V Relay 1 Channel Relay Module - </strong> It is a module that enables one to control a much larger voltage circuit by acting as a switch that can be opened or clodes from by signals from a microcontroller.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li><strong>AHT10 Temperature and Humidity Sensor - </strong> Used to measure the temperature level and humidity percentage in the air by outputing a digital signal in standard I2C format.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Photoresistor Light Detection Sensor - </strong> It is a device that measures the intensity of incident light by changing its resistance with it being highest when light has low intensity and minimum resitance when light
+                        has maximum intensity.<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
+                    </li>
+                    <li><strong>FT232 FTDI Breakout Board - </strong> It is a board used to convert usb signals to serial signals<br>
+                        <div class="Pic">
+                            <img src="Pictures\btn.webp">
+                        </div>
                     </li>
                 </ol>
 
@@ -186,37 +270,162 @@
         </div>
         <div id="Task4">
             <h1>Overview of RP2040 and RPi Pico, including GPIOs</h1>
-            <p>Some content</p>
+            <p>
+                <strong>RP2040 - </strong>RP2040 is the debut microcontroller from Raspberry Pi. It brings our signature values of high performance, low cost, and ease of use to the microcontroller space.<br>
+                <div class="Pic">
+                    <img src="Pictures\rp2040.png">
+                </div>
+
+                <ul>
+                    <li>
+                        <strong>GPIOx - </strong> General-purpose digital input and output. RP2040 can connect one of a number of internal peripherals to each GPIO, or control GPIOs directly from software.
+                    </li>
+
+                    <li>
+                        <strong>GPIOx/ADCy - </strong>General-purpose digital input and output, with analogue-to-digital converter function. The RP2040 ADC has an analogue multiplexer which can select any one of these pins, and sample the voltage.
+                    </li>
+                    <li>
+                        <strong>QSPIx - </strong> Interface to a SPI, Dual-SPI or Quad-SPI flash device, with execute-in-place support. These pins can also be used as software-controlled GPIOs, if they are not required for flash access.
+                    </li>
+                    <li>
+                        <strong>USB_DM and USB_DP - </strong>USB controller, supporting Full Speed device and Full/Low Speed host. A 27Ω series termination resistor is required on each pin, but bus pull-ups and pull-downs are provided internally.
+                    </li>
+                    <li>
+                        <strong>XIN and XOUT - </strong>Connect a crystal to RP2040’s crystal oscillator. XIN can also be used as a single-ended CMOS clock input, with XOUT disconnected. The USB bootloader requires a 12MHz crystal or 12MHz clock input.
+                        For recommended crystals, see Crystal Oscillator (Section 2.16).
+                    </li>
+                    <li>
+                        <strong>RUN - </strong>Global asynchronous reset pin. Reset when driven low, run when driven high. If no external reset is required, this pin can be tied directly to IOVDD.
+                    </li>
+                    <li>
+                        <strong>SWCLK and SWDIO - </strong>Access to the internal Serial Wire Debug multi-drop bus. Provides debug access to both processors, and can be used to download code.
+                    </li>
+                    <li>
+                        <strong>TESTEN - </strong>Factory test mode pin. Tie to GND.
+                    </li>
+                    <li>
+                        <strong>GND - </strong>Single external ground connection, bonded to a number of internal ground pads on the RP2040 die.
+                    </li>
+                    <li>
+                        <strong>IOVDD - </strong>Power supply for digital GPIOs, nominal voltage 1.8V to 3.3V
+                    </li>
+                </ul>
+                <strong>RPi Pico - </strong>An RP2040-based microcontroller board<br>
+                <div class="Pic">
+                    <img src="Pictures\pico.png">
+                </div>
+                <ul>
+                    <li>
+                        <strong>GPIO(0-29) - </strong>PMW
+                    </li>
+                    <li>
+                        <strong>GPIO29 - </strong>internal ADC (ADC3) for measuring VSYS
+                    </li>
+                    <li>
+                        <strong>GPIO(26-28) - </strong>Read analog signals from peripherals
+                    </li>
+                    <li>
+                        <strong>GPIO25 - </strong>Connected to the built-in onboard LED (on the Pico)
+                    </li>
+                    <li>
+                        <strong>GPIO24 - </strong>Indicator for VBUS presence
+                    </li>
+                    <li>
+                        <strong>GPIO23 - </strong>Controls on-board SMPS (Switched Power Mode Supply)
+                    </li>
+                </ul>
+            </p>
         </div>
         <div id="Task5">
             <h1>Introduction to IDEs - Thonny, Arduino, Pico C/C++ SDK</h1>
-            <p>Some content</p>
+            <p>
+                An <strong>integrated development environment (IDE)</strong> is a software application that helps programmers develop software code efficiently. It increases developer productivity by combining capabilities such as software editing, building,
+                testing, and packaging in an easy-to-use application.<br> A <strong>software development kit (SDK) </strong> is a set of platform-specific building tools for developers. You require components like debuggers, compilers, and libraries to
+                create code that runs on a specific platform, operating system, or programming language. SDKs put everything you need to develop and run software in one place. Additionally, they contain resources like documentation, tutorials, and guides
+                as well as APIs and frameworks for faster application development.e.g. Java Development Kit<br>
+                <strong>Thonny - </strong>It is a python IDE that will be used to program the Raspberry Pi Pico using Micropython.<br>
+                <strong>Arduino IDE - </strong>It is a C/C++ IDE that will be used to program a very wide variety of boards that support this language such as arduino and ESP32.<br>
+            </p>
         </div>
         <div id="Task6">
             <h1>Installation of Thonny IDE and Micropython</h1>
-            <p>Some content</p>
+            <p>
+                Steps to install Thonny IDE:
+                <ol>
+                    <li>
+                        Go to
+                        <a href="https://thonny.org">Thonny IDE Download</a>
+                    </li>
+                    <li>
+                        Download the version for Windows and wait a few seconds while it downloads.
+                    </li>
+                    <li>
+                        Run the .exe file.
+                    </li>
+                    <li>
+                        Follow the installation wizard to complete the installation process. You just need to click “Next”.
+                    </li>
+                    <li>
+                        After completing the installation, open Thonny IDE. A window as showing the Thonny workpace should open.
+                    </li>
+                </ol><br> Steps to install Micropython Firmware:
+                <ol>
+                    <li>
+                        Go to the MicroPython Downloads page:
+                        <a href="https://micropython.org/download/."> Micropython Download.</a>
+                    </li>
+                    <li>
+                        Select the type of board you're using.
+                    </li>
+                    <li>Download the latest release.</li>
+                </ol>
+            </p>
         </div>
         <div id="Task7">
             <h1>Blink Pico LED using MicroPython</h1>
-            <p>Some content</p>
+            <p>
+                Here's Micropython code that causes an led to blink:<br>
+                <pre>
+                    <code>        
+                from time import sleep
+    
+                led=Pin(26,Pin.OUT)
+
+                while True:
+                    led.value(1)
+                    sleep(1)
+                    led.value(0)
+                    sleep(1)
+                    </code>
+                </pre> Here's a link of the same in wokwi:
+                <a href="">Blink led simulation in Micropython
+                </a>
+            </p>
         </div>
         <div id=" Task8 ">
             <h1>Blink LED using Pico, C/C++ SDK</h1>
-            <p>Some content</p>
-            <pre>
-                <code>        
-            from time import sleep
+            <p>
+                Here's the code in C used to blink an led:
+                <pre>
+                    <code>        
+                        int led=26;
 
-            led=Pin(26,Pin.OUT)
-            print("Hello World")
-
-            while True:
-                led.value(1)
-                sleep(1)
-                led.value(0)
-                sleep(1)
-                </code>
-                            </pre>
+                        void setup() {
+                          // put your setup code here, to run once:
+                          pinMode(led,OUTPUT);
+                        }
+                        void loop() {
+                          // put your main code here, to run repeatedly:
+                          digitalWrite(led,HIGH);
+                          delay(1000);
+                          digitalWrite(led,LOW);
+                          delay(1000);
+                        }
+                    </code>
+                </pre> Here's a link of the same in wokwi:
+                <a href="">Blink led simulation in C
+                </a>
+            </p>
         </div>
     </div>
 
