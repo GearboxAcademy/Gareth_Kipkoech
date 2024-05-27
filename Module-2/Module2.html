@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MODULE 2</title>
+    <link rel="stylesheet" href="Module2.css">
+</head>
+
+<body>
+    <div id="head">
+        <h1>INTRODUCTION TO EMBEDDDED SYSTEMS 2</h1>
+        <img id="back_image" src="Pictures/pic1.jpg">
+    </div>
+    <div id="Info">
+        <div id="Task1">
+            <h1>Understanding electronic circuits and components</h1>
+            <p>
+                A basic electrical circuit consists of a power source, a resistance element and a ground.They operate under the <strong>Ohm's Law </strong> which states that resistanceis directly proportional to the voltage drop across it but inversely
+                proportional to the current flowing through it.<br> To demonstrate a simple electrical circuit, we'll use an external LED, 250 ohm resistor (to regulate the current) ,a 9 Volt power source(battery) and a push button to light up an led.<br>A
+                demonstration of this connection is as shown in the following
+                <a href="">link</a>:<br>This simple project can also be done using a microcontroller and an almost identical code of blinking the onboard led except for the GPIO pin selected, is found following this
+                <a href="">link to Wokwi.</a><br> Resistors have a wide range of uses in electronics but the following are the main uses:
+                <ul>
+                    <li><strong>Current limitation - </strong> An increase in resistance results in a decrease in cuurent hence this principle is widely used when connecting devices to a power source then adding a resistor to reduce the current to within
+                        operating conditions.
+                    </li>
+                    <li><strong>Pull up resistor- </strong> This is a resistor connecting a device to the power source and is used to raise the voltage at the point in connects to the device.
+                        <img src="">
+                    </li>
+                    <li><strong>Pull down resitor- </strong> This resistor connects a device to the groundin order to make the voltage at the point it connects to the devoce,zero.
+                        <img src="">
+                    </li>
+                    <li><strong>Potential divider - </strong> This is the use of resitors to divide voltage between different lines of the same circuit as shown below:<br>
+                        <img src="">
+                    </li>
+                </ul>
+            </p>
+        </div>
+        <div id="Task2">
+            <h1>Interfacing external LEDs, switches and pushbuttons with RP2040</h1>
+            <p>
+                The next step is toggling the led using a push button which will teach us how to use a GPIO pin as an input pin. Its code is as shown below: (Uploaded to Raspberry Pi Pico W)
+                <div class="Combined">
+                    <pre>
+                        <code>
+            from machine import Pin
+            from time import sleep
+
+            #initialize the led Pin and Button Pin
+            led=Pin(0,Pin.OUT)
+            Button=Pin(10,Pin.IN)
+            #Make the led off initially
+            led.value(0)
+
+            while True:
+                #Check if button has been pressed.
+                if Button.value():
+                    led.value(1)
+                else:
+                    led.value(0)
+                #Delay to ensure the is enough time between button presses to prevent 
+                #the led from flickering as it reads the button state too quickly.
+                sleep(0.3)
+                        </code>
+                    </pre>
+                </div>
+                A link of this simulation can be found by following this
+                <a href="">link to Wokwi.</a><br>
+                <br> Now that we know how to use a GPIO pin as an output or input, we can make the following simple projects:<br>
+                <ul>
+                    <li>
+                        <strong>Traffic lights</strong> - Use of red green and yellow leds to light up at different intervals to mimic the go, wait and stop commands of a real traffic light.</li>
+                    <li><strong>Snake lights</strong> - Use of more than 1 led to create an illusion of a light source moving from one end to the other and back of the led chain.</li>
+                    <li><strong>Binary Counter</strong> - Use of your choice on led number to represent numbers in binary as they are being counted up or down. An on led represents a one while an off led represents a zero.</li>
+                </ul><br> To implement the above projects,I combined all 3 into one project with a push button that is used to change which project is being executed on the same circuitry. The use of functions in very important to make this possible in the
+                most efficient way possible.<br> The following Micropython code is used: <br>
+                <a href="">Simulation in Wokwi.</a>
+
+                <div class="Combined">
+                    <pre>
+                        <code>
+    #In this project, we'll use a button to toggle btwn snake lights, binary counter and traffic lights
+    from machine import Pin
+    from time import sleep
+    
+    button_state=0
+    btn_Pn=Pin(10, Pin.IN, Pin.PULL_DOWN)
+    
+    red=0
+    yellow=2
+    green=3
+    Led1=Pin(red,Pin.OUT)
+    Led2=Pin(yellow,Pin.OUT)
+    Led3=Pin(green,Pin.OUT)
+    
+    
+    def Snake_lights():
+        print("-------------------")
+        arr=[red,yellow,green]
+        i=0
+        T=0
+        while True:
+            led=Pin(arr[i],Pin.OUT)
+            led.value(1)
+            sleep(0.5)
+            led.value(0)
+            i=i+1
+            if i==3:
+                i=0
+                T=T+1
+                if T==3:
+                    Led1.value(0)
+                    Led2.value(0)
+                    Led3.value(0)
+                    print("Snake Lights done")
+                    print("-------------------")
+                    break
+    def Binary_Counter():
+        print("-------------------")
+        Binry=[0,0,0]
+        T=0
+        while True:
+            for x in range(8):
+                Binry[2]= x%2    
+                x=x//2
+                Binry[1]= x%2    
+                x=x//2
+                Binry[0]= x%2    
+                x=x//2
+                print(Binry)
+                Led1.value(Binry[0])
+                Led2.value(Binry[1])
+                Led3.value(Binry[2])
+                sleep(0.5)
+                Led1.value(0)
+                Led2.value(0)
+                Led3.value(0)
+                sleep(0.5)
+            print("-------------------")
+            T=T+1
+            if T==1:
+                Led1.value(0)
+                Led2.value(0)
+                Led3.value(0)
+                print("Binary Counter done")
+                print("-------------------")
+                break;
+    def Traffic_Lights():
+        print("-------------------")
+        T=0
+        while True:
+            Led1.value(1)
+            Led2.value(0)
+            Led3.value(0)
+            print("STOP")
+            sleep(5)
+            Led1.value(1)
+            Led2.value(1)
+            Led3.value(0)
+            print("HOLD ON")
+            sleep(1)
+            Led1.value(0)
+            Led2.value(1)
+            Led3.value(0)
+            print("WAIT")
+            sleep(3)
+            Led1.value(0)
+            Led2.value(1)
+            Led3.value(1)
+            print("ALMOST")
+            sleep(1)
+            Led1.value(0)
+            Led2.value(0)
+            Led3.value(1)
+            print("GO!")
+            sleep(3)
+            Led1.value(1)
+            Led2.value(0)
+            Led3.value(1)
+            print("START BRAKING")
+            sleep(1)
+            
+            T=T+1
+            if T==1:
+                Led1.value(0)
+                Led2.value(0)
+                Led3.value(0)
+                print("Traffic Lights done")
+                print("-------------------")
+                break;
+        
+    def disp_project():
+        n=0
+        while True:
+            if btn_Pn.value():
+                if n==0:
+                    print("-------------------")
+                    print("BUTTON PRESSED")
+                    print("Snake Lights")
+                    Snake_lights()
+                    
+                    
+                if n==1:
+                    print("-------------------")
+                    print("BUTTON PRESSED")
+                    print("Binary Counter")
+                    Binary_Counter()
+                    
+                
+                if n==2:
+                    print("-------------------")
+                    print("BUTTON PRESSED")
+                    print("Traffic Lights")
+                    Traffic_Lights()
+                n=n+1
+                if n==3:
+                    n=0
+            sleep(0.3)
+    disp_project()
+                        </code>
+                        </pre>
+                </div>
+
+            </p>
+        </div>
+        <div id="Task3">
+            <h1>Introduction to sensors and actuators</h1>
+            <p>
+                <strong>A sensor </strong>is a device that detects a physical parameter and converts it to electrical signals that convey information about the parameter.Some people refer to sensors as special actuators which only produce electrical output.There
+                are different types of sensors each differentiated by what it detects e.g soil moisture sensor,light intensity sensor e.t.c<br>
+                <strong>An actuator </strong>is a device that receives electrical signal input and converts it to another form of energy such as such as mechanical energy e.g a motor converts electrical enegy to mechanical energy. Actuators are usually
+                used to perform an action after receiving an electical input e.g from a sensor , microcontroller or just a power source.<br> Before incorporating sensors into our projects, we need to understand the following terms:
+                <ul>
+                    <li><strong>Pulse Width Modulation (PWM)</strong> - Microcontrollers produce output in digital form i.e. can either be a high or low therefore, in order to produce a signal that represents an analogue value, we use PWM. This varies the
+                        time which the wavelength of a square wave remains high (duty cycle).When there is little time when the wave is high, then this corresponds to a low analogue value and vice versa is true. This concept allows a microcontroller to
+                        produce signals that mimic analogue values e.g fading an led.
+                    </li>
+                    <li><strong>Analog Inputs </strong>- Microcontrollers have special pins that take analogue input in the form of a voltage level which is mapped between the maximum and minimum voltage values of the controller e.g (0 and 3.3 V) and produce
+                        an analogue value whose resolution depends on the microcontroller type.</li>
+                </ul>
+                For this module,we'll use the <strong>Ultrasonic sensor</strong> and <strong>PIR(Passive Infrared sensor)</strong> to detect motion and measure the distace from the moving object. Other peripherals used will be an alerting system in the
+                form of a <strong>buzzer</strong> and <strong>2 leds</strong>(one lights up when a motion is detected while the other changes brightness based on the distance of object), a display system form of an <strong>OLED</strong> to show the status
+                i.e if motion is detected or not and the distance from the object.<br> Before making this whole project, we must first learn how to program the individial sensors and display in Micropython.
+            </p>
+        </div>
+        <div id="Task4">
+            <h1>Ultrasonic sensor</h1>
+            <p>
+                This is a sensor that sends a pulse and measures the time it takes for it to be received back as an echo and uses this time value together with the speed of sound to calculate the distance<br> The following shows the Micropython code used
+                to read distance and display it on an OLED:<br>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    from machine import Pin,PWM,SoftSPI
+    import utime
+    
+    #Initializw the OLED display
+    spi = SoftSPI(baudrate=500000, polarity=1, phase=0, sck=Pin(14), mosi=Pin(13), miso=Pin(12))
+    
+    dc = Pin(6)   # data/command
+    rst = Pin(5)  # reset
+    cs = Pin(15)  # chip select, some modules do not have a pin for this
+    
+    display = ssd1306.SSD1306_SPI(128, 64, spi, dc, rst, cs)
+    
+    Trig=Pin(3,Pin.OUT)
+    Echo=Pin(2,Pin.IN)
+    #Setting the LED pin to simulate an analogue output using PWM
+    LED=PWM(Pin(26))
+    LED.freq(1000)
+    LED.duty_u16(0)
+    #Calibrating the maximum distance your sensor can measure, this value will change depending on your sensor.
+    max_Ultrasonic_distance_cm=205
+    #Raspberry Pi Pico has a PMW duty cycle ranging from 0-65025
+    max_12bit_value=65025;
+    
+    def read_distance():
+        #Make the oled display nothing initially
+        display.fill(0)
+        #Sending a pulse
+        Trig.value(0)
+        utime.sleep_us(2)
+        Trig.value(1)
+        utime.sleep_us(5)
+        Trig.value(0)
+        
+        #time between pulse release and its arrival as an echo.
+        while Echo.value()==0:
+            travel_time=utime.ticks_us()
+        #time during which the echo is detected     
+        while Echo.value()==1:
+            pulse_received_time=utime.ticks_us()
+        
+        timeTaken=pulse_received_time-travel_time
+        distance=((0.0343*timeTaken)/2)
+        #Display on oled 
+        display.text("Distance - "+distance+" cm away.",1,1,0)
+        #display on terminal
+        print("The distance object is ",distance," cm away")
+        
+        #To prevent brightness values being higher than 3.3 volts
+        if distance>max_Ultrasonic_distance_cm:
+            distance=max_Ultrasonic_distance_cm
+        #Make the brightness value directly proportional to distance of object
+        #Also mapping the distance value to an analogue value(0-65025)
+        brightness=(max_12bit_value/max_Ultrasonic_distance_cm)*distance
+        LED.duty_u16(int(brightness))
+    
+    while True:
+        read_distance()
+        utime.sleep(0.5)                        
+                        </code>
+                    </pre>
+                </div>
+
+            </p>
+        </div>
+        <div id="Task5">
+            <h1>PIR sensor</h1>
+            <p>
+                This sensor is used to detect the presence of an object moving in its radius of view. The following Micropython code is used to use a PIR sensor to detect motion and display status on an oled and use a buzzer to alert the user.<br>
+                <div class="Combined ">
+                    <pre>
+                        <code>
+        from machine import Pin
+        import utime
+        
+        #initialize the OLED display
+        spi = SoftSPI(baudrate=500000, polarity=1, phase=0, sck=Pin(14), mosi=Pin(13), miso=Pin(12))
+        
+        dc = Pin(6)   # data/command
+        rst = Pin(5)  # reset
+        cs = Pin(15)  # chip select, some modules do not have a pin for this
+        display = ssd1306.SSD1306_SPI(128, 64, spi, dc, rst, cs)
+        
+        #initialize the green led and buzzer
+        buzzer=Pin(0,Pin.OUT)
+        LED2=Pin(1,Pin.OUT)
+        PIR=Pin(16,Pin.IN,Pin.PULL_DOWN)
+        
+        while True:
+            display.fill(0)
+            if PIR.value()==1:
+                display.text(" Motion Detected ! ! ",1,1,1)
+                buzzer.value(1)
+                LED2.value(0)
+            else:
+                display.text("NO Motion Detected ! ! ",1,1,1)
+                LED2.value(1)
+                buzzer.value(0)
+                
+            utime.sleep(0.5)
+                                    
+                        </code>
+                        </pre>
+                </div>
+            </p>
+        </div>
+        <div id="Task6">
+            <h1>Module2 project</h1>
+            <p></p>
+        </div>
+    </div>
+</body>
+
+</html>
