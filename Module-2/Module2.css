@@ -52,13 +52,26 @@
         width: 100%;
     }
     
+    #Footer {
+        position: absolute;
+        z-index: 3;
+        background-color: rgba(25, 211, 196, 0.4);
+        height: 10vh;
+        width: 100%;
+        color: white;
+    }
+    
     .Combined {
-        background-color: antiquewhite;
-        font-size: 1.2em;
-        margin: 10px;
+        background-color: rgb(215, 238, 250);
+        font-size: 1.0em;
+        margin: 30px;
+        border: 3px solid white;
+        border-radius: 20px;
+        width: auto;
+        height: 50vh;
+        overflow: scroll;
     }
     
     code {
-        height: auto;
-        text-wrap: wrap;
+        color: rgb(72, 34, 34);
     }

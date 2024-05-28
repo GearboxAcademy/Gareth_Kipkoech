@@ -7,6 +7,12 @@
         font-size: 1.1em;
     }
     
+    p,
+    li {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
     h1 {
         text-align: center;
     }
@@ -61,4 +67,12 @@
         height: 100%;
         width: 100%;
         object-fit: contain;
+    }
+    
+    .one {
+        background-color: white;
+    }
+    
+    .two {
+        background-color: antiquewhite;
     }

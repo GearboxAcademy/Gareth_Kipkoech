@@ -299,7 +299,7 @@
         print("The distance object is ",distance," cm away")
         
         #To prevent brightness values being higher than 3.3 volts
-        if distance>max_Ultrasonic_distance_cm:
+        if distance&gtmax_Ultrasonic_distance_cm:
             distance=max_Ultrasonic_distance_cm
         #Make the brightness value directly proportional to distance of object
         #Also mapping the distance value to an analogue value(0-65025)
@@ -358,9 +358,90 @@
         </div>
         <div id="Task6">
             <h1>Module2 project</h1>
-            <p></p>
+            <p>
+                Here, we'll apply all that we have learnt to build a project that senses the presence of an object moving and measures its distance.<br> Components used include :<br>
+                <ul>
+                    <li><strong>Ultrasonic sensor</strong> - Measures object distance. </li>
+                    <li><strong>PIR sensor</strong> - Detects an object in motion.</li>
+                    <li><strong>Green led</strong> - Lights up when motion is detected.</li>
+                    <li><strong>Red led</strong> - Varies in brightness based on distance of object.(PWM)</li>
+                    <li><strong>OLED</strong>- Display the status and distance of object.</li>
+                </ul>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    from machine import Pin,PWM
+    import utime
+    
+    #Initilizing the OLED
+    spi = SoftSPI(baudrate=500000, polarity=1, phase=0, sck=Pin(14), mosi=Pin(13), miso=Pin(12))
+    
+    dc = Pin(6)   # data/command
+    rst = Pin(5)  # reset
+    cs = Pin(15)  # chip select, some modules do not have a pin for this
+    
+    display = ssd1306.SSD1306_SPI(128, 64, spi, dc, rst, cs)
+    
+    #Initializing the Ultrasonic and led2(Red led)
+    Trig=Pin(3,Pin.OUT)
+    Echo=Pin(2,Pin.IN)
+    LED2=PWM(Pin(26))
+    LED2.freq(1000)
+    LED2.duty_u16(0)
+    
+    #Initializing the PIR sensor and led1(Green led)
+    PIR=Pin(16,Pin.IN,Pin.PULL_DOWN)
+    LED1=Pin(0,Pin.OUT)
+    
+    #Function for detecting motion
+    def motion():
+            display.fill(0)
+            LED1.value(PIR.value())
+            if PIR.value()==1:
+                display.text("Motion Detected",1,1,1)
+            else:
+                display.text("No Motion!",1,1,1)
+            utime.sleep(0.5)
+    
+    #Function for measuring distance
+    def read_distance():
+        
+        Trig.value(0)
+        utime.sleep_us(2)
+        Trig.value(1)
+        utime.sleep_us(5)
+        Trig.value(0)
+        while Echo.value()==0:
+            Time_taken_go=utime.ticks_us()
+        
+        while Echo.value()==1:
+            Time_taken_received=utime.ticks_us()
+        
+        timeTaken=Time_taken_received-Time_taken_go
+        distance=((0.0343*timeTaken)/2)
+        brightness=(65550/150)*distance
+        LED2.duty_u16(int(brightness))
+        display.fill(0)
+        display.text("The distance object is "+distance+" cm away",1,1,1)
+    
+    while True:
+        read_distance()
+        motion()
+        utime.sleep(1)                            
+                        </code>
+                    </pre>
+                </div>
+                <p>
+                    A link of this from wokwi of this project is :
+                    <a href="">Module_2 project.</a>
+                </p>
+            </p>
+        </div>
+        <div id="Footer">
+            <h1>THE END OF MODULE TWO &#128516</h1>
         </div>
     </div>
+
 </body>
 
 </html>
