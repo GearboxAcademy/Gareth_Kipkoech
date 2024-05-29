@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MODULE 4</title>
+    <link rel="stylesheet" href="Module4.css">
+</head>
+
+<body>
+    <div id="head">
+        <h1>MICROCONTROLLER PROGRAMMING AND ACCESS CONTROL SYSTEMS 2</h1>
+        <img id="back_image" src="Pictures/pic1.jpg">
+    </div>
+    <div id="Info">
+        <div id="Task1">
+            <h1>Communication Protocols in Embedded Systems.</h1>
+            <h2>Working with communication protocols (I2C,UART,SPI)</h2>
+            <p>
+                Sometimes a device may have more than one embedded system, each performing a different task and for the system to work efficiently, good communication must exist between the subsystems. A common communication protocol is chosen to allow exchange of data
+                and information. There are numerous protocols to be selected but due to standardization, they are broadly categorised into 2:
+                <ol>
+                    <li><strong>Parallel Interface</strong> - Multiple bits are transferred at the same time following a rising or falling clock edge.
+                        <img src="">
+                    </li>
+                    <li>
+                        <strong>Serial Interface</strong> - Data is transmitted one bit at a time as a stream.Uses less wires than Parallel interface and is cheaper.
+                        <img src=""><br> The serial interface is further classified mainly into 3:
+                        <ul>
+                            <li><strong>I2C (Inter Integrated Circuit)</strong></li>
+                            <li><strong>SPI(Serial Peripheral Interface)</strong></li>
+                            <li><strong>UART(Universal Asynchronous Receiver/Transmitter)</strong></li>
+                        </ul>
+                    </li>
+                </ol>
+                <ol type="A">
+                    <li>
+                        <strong>I2C</strong><br> It uses only 2 bi-directional open-drain lines for data transmission called <strong>SDA</strong> and <strong>SCL.</strong><br> SDA(Serial Data)-facilitates the transfer of data.<br>
+                        <img src=""> SCL(Serial Clock) - Carries the clock<br> I2C operates in 2 modes: <strong>Master mode</strong> and <strong>Slave mode.</strong>
+
+                        <h3>Advantages of I2C</h3>
+                        <ol>
+                            <li>Can have multiple masters</li>
+                            <li>Reduced complexity due to use of only 2 wires unlike SPI.</li>
+                            <li>Cost-efficient.</li>
+                            <li>Uses ACK(Acknowledge) bit which reduces error.</li>
+                        </ol>
+                        <h3>Disadvantages of I2C</h3>
+                        <ol>
+                            <li>Slower speed since bits are sent and received one at a time.</li>
+                            <li>Data can be bi-directional but supports only one direction at a time (Half-duplex).</li>
+                        </ol>
+                    </li>
+                    <li><strong>SPI</strong><br> It is used to facilitate communication between peripheral devices(input and output devices and microcontrollers).It featues full-duplex and synchronous communication between one or more slave devices and a
+                        microcontroller.
+                        <br> The components of SPI include:
+                        <ul>
+                            <li>
+                                <strong>Master Device</strong> - It controls the data flow and generates the clock signal(Microcontroller).
+                            </li>
+                            <li>
+                                <strong>Slave Device</strong> - Are peripheral devices controlles by the master device.
+                            </li>
+                            <li>
+                                <strong>SPI Bus</strong> - It refers to the physical connections allowing the data to move between the slave devices and master device.<br>
+                                <img src=""> SPI is made up of :<br>
+                                <ol>
+                                    <li>Slave Select(SS) - Allows the master to communicate to a specific slave.</li>
+                                    <li>Master Out Slave In(MOSI) - Allows communication from Master to slave.</li>
+                                    <li>Master In Slave Out(MISO) - Allows communication from slave to Master.</li>
+                                    <li>Serial Clock(SCK) - Clock used by master and slave devices to coordinate data transfer.</li>
+                                </ol>
+                            </li>
+                            <li>
+                                <strong>Data Transfer Protocol</strong> - SPI uses synchronous(controlled by a clock) serial communication for full duplex(data transfer in both ways simultaneously) data transfer.
+                            </li>
+                            <li>
+                                <strong>Data Rate</strong> - Number of bits transferred per second .
+                            </li>
+                            <li>
+                                <strong>Clock Polarity and Clock Phase</strong> - used to define the relationship between the data signals and the clock signals.
+                            </li>
+                        </ul>
+                        <h3>Advantages of SPI.</h3>
+                        <ol>
+                            <li>High speed data transfer</li>
+                            <li>Simple Hardware Requirements.(4 signal lines-SCK,MISO,MOSI,SS)</li>
+                            <li>Supports Full duplex communication.</li>
+                            <li>Supports multiple slave devices.</li>
+                        </ol>
+                        <h3>Disadvantages of SPI.</h3>
+                        <ol>
+                            <li>Used more wires than I2C.</li>
+                        </ol>
+                    </li>
+                    <li>
+                        <strong>UART</strong><br> It allows for asynchronous serial communication between devices.UART is a block of circuitry responsible for implementing serial communication as it acts as an intermediary between parallel and serial
+                        interfaces. On one end of the UART is a bus of 8 or so data lines and control pins and the other is the two serial wires, RX and TX (Receiver and Transmitter)<br>
+                        <img src=""><br> Although it has been greatly replaced by SPI and I2Cs, it's widely used for lower-speed applications because it is very simple, low-cost and easy to implement.<br>
+                        <h3>Advantages of UART</h3><br>
+                        <ol>
+                            <li>It supports full-duplex communication.</li>
+                            <li>It doesn't require a clock signal.</li>
+                            <li>Has error checking due to the presence parity bit</li>
+                            <li>Data format and transmission speeds are configurable.</li>
+                        </ol>
+                        <h3>Disadvantages of UART</h3>
+                        <ol>
+                            <li>Lower Data Rates</li>
+                            <li>Suitable for only 2 devices</li>
+                            <li>Has a distance limit of 15 meters.</li>
+                        </ol>
+                    </li>
+                </ol>
+            </p>
+
+            <h2>Interfacing the RPi Pico and ESP32 using SPI</h2>
+            <p>
+                Coming soon &#128517
+            </p>
+            <h2>Interfacing the RPi Pico and ESP32 using I2C</h2>
+            <p>
+                Coming soon &#128517
+            </p>
+            <h2>Interfacing the RPi Pico and ESP32 using Serial Communication.</h2>
+            <p>
+                Coming soon &#128517
+            </p>
+            <h2>Communication between two raspberry pi pico Ws on the same network.</h2>
+            <p>
+                Coming soon &#128517
+            </p>
+            <h3>Configuring the raspberry pi pico W as a server in a network.</h3>
+            <p>
+                Coming soon &#128517
+            </p>
+            <h3>Configuring the ESP32 as a server in a network.</h3>
+            <p>
+                Coming soon &#128517
+            </p>
+
+            <h2>Blynk Cloud Setup using ESP32</h2>
+            <p>
+                Coming soon &#128517
+            </p>
+        </div>
+        <div id="Task2">
+            <h1>PROJECT 2</h1>
+            <p>
+                Coming soon &#128517
+            </p>
+        </div>
+
+        <div id="Footer">
+            <h1>THE END OF MODULE 4 &#128516</h1>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -11,7 +11,9 @@ li {
     padding-right: 10px;
 }
 
-h1 {
+h1,
+h2,
+h3 {
     text-align: center;
 }
 
@@ -52,7 +54,7 @@ h1 {
     position: absolute;
     z-index: 3;
     background-color: rgba(25, 211, 196, 0.4);
-    height: 10vh;
+    height: auto;
     width: 100%;
     color: white;
 }
