@@ -31,12 +31,93 @@
                     <li><strong>Compatible with Arduino IDE</strong></li>
                     <li><strong>Compatible with Micropython</strong></li>
                 </ul>
+                Now lets begin coding but first we must install the Arduino IDE and configure it to our ESP32 Board. I use Windows so these are the steps I used: <br>
+                <ol>
+                    <li>Visit the Arduino IDE
+                        <a href="https://www.arduino.cc/en/Main/Software">download page</a> and select the latest version you wish to download.</li>
+                    <li>After the download finishes, unzip the file and begin installation by choosing the components to install (preferably all) on the pop up window of the setup.</li>
+                    <li>Choose the Installation directory</li>
+                    <li>Wait till the installation progress bar is complete.</li>
+                    <li>In your Arduino IDE, go to File &gt Preferences</li>
+                    <li>Enter the following into the “Additional Board Manager URLs” field :
+                        <span style="background-color: antiquewhite;">https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</span> then click 'OK'.
+                    </li>
+                    <li>Search for ESP32 and press install button for the “ESP32 by Espressif Systems“</li>
+                    <li>Open the Boards Manager. Go to Tools &gt Board &gt Boards Manage then select ESP32 Dev kit Module</li>
+                    <li>Now you have an Arduino IDE with ESP32 board configured.</li>
+                </ol>
             </p>
         </div>
         <div id="Task2">
             <h1>Building simple LED-based projects.</h1>
             <p>
+                The code that will be used here will just be ordinary Arduino code (C) that is uploaded to an ESP32.<br>
+                <strong>Traffic lights</strong> project code using esp32 and red, green and yellow leds is shown below<br>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    int red=0;
+    int green=2;
+    int yellow=4;
 
+    void setup() {
+        // put your setup code here, to run once:
+        Serial.begin(115200);
+        Serial.println("Hello, ESP32!");
+        pinMode(red, OUTPUT);
+        pinMode(yellow, OUTPUT);
+        pinMode(green, OUTPUT);
+
+        digitalWrite(red,LOW);
+        digitalWrite(yellow,LOW);
+        digitalWrite(green,LOW);
+        delay(1000);
+    }
+
+    void loop() {
+        // put your main code here, to run repeatedly:
+        digitalWrite(red,HIGH);
+        digitalWrite(yellow,LOW);
+        digitalWrite(green,HIGH);
+        Serial.println("Start BRAKING !");
+        delay(1000);
+        
+        digitalWrite(red,HIGH);
+        digitalWrite(yellow,LOW);
+        digitalWrite(green,LOW);
+        Serial.println("STOP !");
+        delay(2000);
+
+        digitalWrite(red,HIGH);
+        digitalWrite(yellow,HIGH);
+        digitalWrite(green,LOW);
+        Serial.println("Remove your hand brakes");
+        delay(1000);
+
+        digitalWrite(red,LOW);
+        digitalWrite(yellow,HIGH);
+        digitalWrite(green,LOW);
+        Serial.println("WAIT !");
+        delay(2000);
+        
+
+        digitalWrite(red,LOW);
+        digitalWrite(yellow,HIGH);
+        digitalWrite(green,HIGH);
+        Serial.println("Start your engines !");
+        delay(1000);
+
+        digitalWrite(red,LOW);
+        digitalWrite(yellow,LOW);
+        digitalWrite(green,HIGH);
+        Serial.println("GO !");
+        delay(2000); 
+    }      
+                        </code>
+                    </pre>
+                </div>
+                The above simulation can be found by clicking this
+                <a href="https://wokwi.com/projects/399189927405735937">link.</a>
             </p>
         </div>
 
