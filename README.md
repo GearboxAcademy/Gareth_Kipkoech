@@ -1,3 +1,3 @@
-# Gareth_Kipkoech
-Contains my portfolio which is linked to the gearbox  12-week attachment documentation
-...Still in progress (week 5)
+# Gearbox_Attachment
+A documentation of the 12 week attachment at Gearbox Kenya
+ 
