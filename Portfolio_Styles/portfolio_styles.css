@@ -223,6 +223,32 @@
         margin: 0px;
     }
     
+    #Experience button {
+        margin: 10px;
+        padding: 10px;
+        background-color: black;
+        border: 2px solid black;
+        border-radius: 10px;
+        transition: background-color 1s;
+    }
+    
+    #Experience button:hover {
+        background-color: rgb(230, 38, 38);
+    }
+    
+    #Experience button:active {
+        background-color: rgba(230, 38, 38, 0.5);
+    }
+    
+    #Experience button a {
+        color: white;
+        text-decoration: none;
+    }
+    
+    #Experience button a:hover {
+        color: rgb(0, 0, 0);
+    }
+    
     form {
         display: flex;
         flex-direction: column;
