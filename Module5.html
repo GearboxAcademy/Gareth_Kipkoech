@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MODULE 5</title>
+    <link rel="stylesheet" href="Module-5/Module5.css">
+</head>
+
+<body>
+    <div id="head">
+        <h1>MICROCONTROLLER PROGRAMMING AND ACCESS CONTROL SYSTEMS 3</h1>
+        <img id="back_image" src="Pictures/pic1.jpg">
+    </div>
+    <div id="Info">
+        <div id="Task1">
+            <h1>Interfacing the RPi Pico with a Relay and RC522(RFID Module).</h1>
+            <p>
+                Here, we'll learn and understand first how an RFID(Radio Frequency Identification)Module works then proceed to use this knowlege to control the opening and closing of a relay.<br> An RFID system consists of 2 main parts, a<strong> tag</strong>                and a
+                <strong> reader</strong><br> A tag is placed on the object to be identified while a reader is on the module.The reader consists of a radio frequency module and an antenna that generates a high frequency electromagnetic field while the
+                reader is a passive device(doesn't require power) which consists of a microchip that stores and processes information and an antenna for receiving and transmitting a signal.<br> When the tag is brought close to the reader, the reader generates
+                an electromagnetic field. This causes electrons to move through the tag&#39s antenna and subsequently powers the chip.<br> The chip then responds by sending its stored information back to the reader in the form of another radio signal.
+                This is called a backscatter. The reader detects and interprets this backscatter and sends the data to a computer or microcontroller.<br>The above content describes the principle of operation of an RFID module when used as an <strong>Access
+                    control System.</strong> <br> This module can also be used in other applications such as:
+                <ul>
+                    <li>Geolocation - When the tag is scanned by a smartphone, it opens a map and drops a pin at the specified coordinates.</li>
+                    <li>Writing and Reading custom Data - The RFID module can store up to 143 text characters or a 10-digit number on a tag. The data is written to specific memory locations on the tag, referred to as slots. There are 36 slots numbered 0 to
+                        35 that are safe to write to.This application is widely used in credit cards where when making payments, we swipe the card tag which is read(account balance) and deducted(Writing) as payment.</li>
+                </ul>
+                <br><br> After knowing the theory of its operating principle, let's learn about its pinout diagram<br>
+                <div class="Pic">
+                    <img src="Pictures\RFID_PinOut.webp">
+                </div>
+                <ol>
+                    <li><strong>VCC</strong> - supplies power to the module. This can be anywhere from 2.5 to 3.3 volts. You can connect it to the 3.3V output from your Microcontroller. But remember that connecting it to the 5V pin will probably destroy your
+                        module!
+                    </li>
+                    <li><strong>RST</strong> - is an input for reset and power-down. When this pin goes low the module enters power-down mode. In which the oscillator is turned off and the input pins are disconnected from the outside world. Whereas the module
+                        is reset on the rising edge of the signal.</li>
+                    <li><strong>GND</strong> - is the ground pin and needs to be connected to the GND pin on the Microcontroller.</li>
+                    <li><strong>IRQ</strong> - is an interrupt pin that alerts the microcontroller when an RFID tag is in the vicinity.</li>
+                    <li><strong>MISO/SCL/Tx</strong> - pin acts as master-in-slave-out when SPI interface is enabled, as serial clock when I2C interface is enabled and as serial data output when the UART interface is enabled.</li>
+                    <li><strong>MOSI (Master Out Slave In)</strong> - is the SPI input to the RC522 module.</li>
+                    <li><strong>SCK(Serial Clock)</strong> - accepts the clock pulses provided by the SPI bus master i.e. Microcontroller.</li>
+                    <li><strong>SS / SDA / Rx</strong> - pin acts as a signal input when the SPI interface is enabled, as serial data when the I2C interface is enabled and as a serial data input when the UART interface is enabled.</li>
+                </ol><br> After understanding the pinout diagram, now its time to connect it to our RPi Pico and program it to read tags and configure it to accept certain tags and reject the rest.<br> Its code is as follows:<br>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    from machine import Pin
+    import ssd1306
+    from mfrc522 import MFRC522
+    from time import sleep
+    '''
+    RSP Pico  |   RC522
+    0         |   RST
+    1         |   SDA
+    2         |   SCK
+    3         |   MOSI
+    4         |   MISO
+    '''
+    #Initializing the relay.
+    relay=Pin(5,Pin.OUT)
+
+    #Initializing the RFID card reader.
+    reader = MFRC522(spi_id=0,sck=2,miso=4,mosi=3,cs=1,rst=0)
+
+    #List of card IDs that are granted access.
+    cards=["1497272400"]
+        
+    print("Bring TAG closer...")
+    print("")
+    
+    while True:
+        reader.init()
+        (stat, tag_type) = reader.request(reader.REQIDL)
+        if stat == reader.OK:
+            (stat, uid) = reader.SelectTagSN()
+            if stat == reader.OK:
+                card = int.from_bytes(bytes(uid),"little",False)
+                print("CARD ID: "+str(card))
+                if str(card) in cards:
+                    print("Access granted")
+                    relay.value(1)
+                    sleep(1)
+                    relay.value(0)
+                else:
+                    print("Access denied")
+        sleep(0.5)     
+                        </code>
+                    </pre>
+                </div><br> The above code supports a relay which will be turned on (closes a switch) for a period of time before being turned off when the Access is granted. The relay in the final project will be the switch that activates the solenoid
+                to unlock a door.
+            </p>
+        </div>
+        <div id="Task2">
+            <h1>Types of Electric Door Locks in the Market.</h1>
+        </div>
+        <div id="Task3">
+            <h1>Create an end-to-end RFID Access Control System.</h1>
+        </div>
+        <div id="Task4">
+            <h1>Access Control System assessment.</h1>
+        </div>
+
+        <div id="Footer">
+            <h1>THE END OF MODULE 5 &#128516</h1>
+        </div>
+    </div>
+
+</body>
+
+</html>
