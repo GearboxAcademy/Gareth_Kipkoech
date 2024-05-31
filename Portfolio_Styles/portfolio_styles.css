@@ -179,6 +179,11 @@
         aspect-ratio: 1/1;
     }
     
+    #skills_list li h2,
+    #Projects_list li h2 {
+        background-color: transparent;
+    }
+    
     #Portfolio {
         background-color: white;
     }
@@ -275,4 +280,67 @@
     
     #submit:active {
         background-color: rgb(0, 255, 34);
+    }
+    
+    @media (max-width: 550px) {
+        body {
+            font-size: 1.5em;
+        }
+        #skills_list,
+        #Projects_list {
+            display: block;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        #skills_list li,
+        #Projects_list li {
+            list-style: none;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 20px;
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1/1;
+        }
+        #Transparent {
+            background-color: transparent;
+            padding-top: 3%;
+        }
+        #Transparent section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+            aspect-ratio: 1/1;
+        }
+        #Transparent section img {
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        header {
+            position: relative;
+            background-color: rgba(149, 146, 146, 0.5);
+            height: 7%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        header button {
+            margin-right: 1%;
+            padding: 1%;
+            border: 1px solid rgb(173, 164, 164);
+            border-radius: 20px;
+            background-color: rgba(149, 146, 146, 0.5);
+            display: inline-block;
+            box-shadow: 1px 1px 100px black;
+            transition: opacity 0.2s;
+            font-size: 1.5em;
+        }
     }
