@@ -73,3 +73,14 @@
     .two {
         background-color: antiquewhite;
     }
+    
+    .Combined {
+        background-color: rgb(215, 238, 250);
+        font-size: 1.0em;
+        margin: 30px;
+        border: 3px solid white;
+        border-radius: 20px;
+        width: auto;
+        height: auto;
+        overflow: scroll;
+    }

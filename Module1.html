@@ -385,20 +385,23 @@
             <h1>Blink Pico LED using MicroPython</h1>
             <p>
                 Here's Micropython code that causes an led to blink:<br>
-                <pre>
-                    <code>        
-                from time import sleep
+                <div class="Combined">
+                    <pre>
+                        <code>    
+                    from machine import sleep    
+                    from time import sleep
+        
+                    led=Pin(26,Pin.OUT)
     
-                led=Pin(26,Pin.OUT)
-
-                while True:
-                    led.value(1)
-                    sleep(1)
-                    led.value(0)
-                    sleep(1)
-                    </code>
-                </pre> Here's a link of the same in wokwi:
-                <a href="">Blink led simulation in Micropython
+                    while True:
+                        led.value(1)
+                        sleep(1)
+                        led.value(0)
+                        sleep(1)
+                        </code>
+                        </pre>
+                </div> Here's a link of the same in wokwi:
+                <a href="https://wokwi.com/projects/399397583687037953">Blink led simulation in Micropython
                 </a>
             </p>
         </div>
@@ -406,24 +409,27 @@
             <h1>Blink LED using Pico, C/C++ SDK</h1>
             <p>
                 Here's the code in C used to blink an led:
-                <pre>
-                    <code>        
-                        int led=26;
+                <div class="Combined">
+                    <pre>
+                        <code>        
+        int led=26;
 
-                        void setup() {
-                          // put your setup code here, to run once:
-                          pinMode(led,OUTPUT);
-                        }
-                        void loop() {
-                          // put your main code here, to run repeatedly:
-                          digitalWrite(led,HIGH);
-                          delay(1000);
-                          digitalWrite(led,LOW);
-                          delay(1000);
-                        }
-                    </code>
-                </pre> Here's a link of the same in wokwi:
-                <a href="">Blink led simulation in C
+        void setup() {
+            // put your setup code here, to run once:
+            pinMode(led,OUTPUT);
+        }
+        void loop() {
+            // put your main code here, to run repeatedly:
+            digitalWrite(led,HIGH);
+            delay(1000);
+            digitalWrite(led,LOW);
+            delay(1000);
+        }
+                        </code>
+                    </pre>
+                </div>
+                Here's a link of the same in wokwi:
+                <a href="https://wokwi.com/projects/399398296063434753">Blink led simulation in C
                 </a>
             </p>
         </div>
