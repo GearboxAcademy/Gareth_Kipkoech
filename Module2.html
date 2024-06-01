@@ -234,28 +234,37 @@
                 <ul>
                     <li><strong>Pulse Width Modulation (PWM)</strong> - Microcontrollers produce output in digital form i.e. can either be a high or low therefore, in order to produce a signal that represents an analogue value, we use PWM. This varies the
                         time which the wavelength of a square wave remains high (duty cycle).When there is little time when the wave is high, then this corresponds to a low analogue value and vice versa is true. This concept allows a microcontroller to
-                        produce signals that mimic analogue values e.g fading an led.
+                        produce signals that mimic analogue values e.g
+                        <a href="https://wokwi.com/projects/399469797714159617">fading an led.</a>
                         <div class="Combined">
                             <pre>
                                 <code>
-from machine import Pin,PWM,ADC
-from time import sleep
-
-ledPin=PWM(Pin(26))
-ledPin.freq(1000)
-ledPin.duty_u16(0)
-potPin=ADC(Pin(27))
-
-i=0;
-diff=1000
-while True:
-    potVal=potPin.read_u16()
-    print(potVal)
-    ledPin.duty_u16(potVal)
-    sleep(0.1)
-
+    from machine import Pin,PWM
+    from time import sleep
+    
+    ledPin=PWM(Pin(26))
+    ledPin.freq(1000)
+    ledPin.duty_u16(0)
+    
+    duty=0;
+    diff=1000
+    while True:
+        if duty &#62 65536 :
+            duty=65536
+            diff*=-1
+            sleep(0.1)
+        if duty &#60 0:
+            duty=0
+            diff*=-1
+            sleep(0.1)
+        print(duty)
+        ledPin.duty_u16(duty)
+        duty+=diff
+        
+        sleep(0.01)
                                 </code>
-                            </pre> </div>
+                            </pre>
+                        </div>
                     </li>
                     <li><strong>Analog Inputs </strong>- Microcontrollers have special pins that take analogue input in the form of a voltage level which is mapped between the maximum and minimum voltage values of the controller e.g (0 and 3.3 V) and produce
                         an analogue value whose resolution depends on the microcontroller type.</li>
@@ -383,11 +392,17 @@ while True:
             <p>
                 Here, we'll apply all that we have learnt to build a project that senses the presence of an object moving and measures its distance.<br> Components used include :<br>
                 <ul>
-                    <li><strong>Ultrasonic sensor</strong> - Measures object distance. </li>
-                    <li><strong>PIR sensor</strong> - Detects an object in motion.</li>
+                    <li><strong>Ultrasonic sensor</strong> - Measures object distance.
+                        <a href="https://wokwi.com/projects/398036307844566017">Simulate</a>
+                    </li>
+                    <li><strong>PIR sensor</strong> - Detects an object in motion.
+                        <a href="https://wokwi.com/projects/398037595838954497">Simulate</a>
+                    </li>
                     <li><strong>Green led</strong> - Lights up when motion is detected.</li>
                     <li><strong>Red led</strong> - Varies in brightness based on distance of object.(PWM)</li>
-                    <li><strong>OLED</strong>- Display the status and distance of object.</li>
+                    <li><strong>OLED</strong>- Display the status and distance of object.
+                        <a href="https://wokwi.com/projects/359558101922696193">Simulate</a>
+                    </li>
                 </ul>
                 <div class="Combined">
                     <pre>
@@ -455,7 +470,7 @@ while True:
                 </div>
                 <p>
                     A link of this from wokwi of this project is :
-                    <a href="">Module_2 project.</a>
+                    <a href="https://wokwi.com/projects/399474788525408257">Module_2 project.</a>
                 </p>
             </p>
         </div>
