@@ -18,13 +18,16 @@
             <p>
                 Sometimes a device may have more than one embedded system, each performing a different task and for the system to work efficiently, good communication must exist between the subsystems. A common communication protocol is chosen to allow exchange of data
                 and information. There are numerous protocols to be selected but due to standardization, they are broadly categorised into 2:
+                <div class="Pic">
+                    <img src="Pictures\interfaces.webp">
+                </div>
                 <ol>
                     <li><strong>Parallel Interface</strong> - Multiple bits are transferred at the same time following a rising or falling clock edge.
-                        <img src="">
+
                     </li>
                     <li>
                         <strong>Serial Interface</strong> - Data is transmitted one bit at a time as a stream.Uses less wires than Parallel interface and is cheaper.
-                        <img src=""><br> The serial interface is further classified mainly into 3:
+                        <br> The serial interface is further classified mainly into 3:
                         <ul>
                             <li><strong>I2C (Inter Integrated Circuit)</strong></li>
                             <li><strong>SPI(Serial Peripheral Interface)</strong></li>
@@ -34,8 +37,10 @@
                 </ol>
                 <ol type="A">
                     <li>
-                        <strong>I2C</strong><br> It uses only 2 bi-directional open-drain lines for data transmission called <strong>SDA</strong> and <strong>SCL.</strong><br> SDA(Serial Data)-facilitates the transfer of data.<br>
-                        <img src=""> SCL(Serial Clock) - Carries the clock<br> I2C operates in 2 modes: <strong>Master mode</strong> and <strong>Slave mode.</strong>
+                        <strong>I2C</strong><br>
+                        <div class="Pic">
+                            <img src="Pictures\i2C.jpeg">
+                        </div> It uses only 2 bi-directional open-drain lines for data transmission called <strong>SDA</strong> and <strong>SCL.</strong><br> SDA(Serial Data)-facilitates the transfer of data.<br> SCL(Serial Clock) - Carries the clock<br>                        I2C operates in 2 modes: <strong>Master mode</strong> and <strong>Slave mode.</strong>
 
                         <h3>Advantages of I2C</h3>
                         <ol>
@@ -50,8 +55,10 @@
                             <li>Data can be bi-directional but supports only one direction at a time (Half-duplex).</li>
                         </ol>
                     </li>
-                    <li><strong>SPI</strong><br> It is used to facilitate communication between peripheral devices(input and output devices and microcontrollers).It featues full-duplex and synchronous communication between one or more slave devices and a
-                        microcontroller.
+                    <li><strong>SPI</strong><br>
+                        <div class="Pic">
+                            <img src="Pictures\spi.jpeg">
+                        </div>It is used to facilitate communication between peripheral devices(input and output devices and microcontrollers).It featues full-duplex and synchronous communication between one or more slave devices and a microcontroller.
                         <br> The components of SPI include:
                         <ul>
                             <li>
@@ -61,8 +68,7 @@
                                 <strong>Slave Device</strong> - Are peripheral devices controlles by the master device.
                             </li>
                             <li>
-                                <strong>SPI Bus</strong> - It refers to the physical connections allowing the data to move between the slave devices and master device.<br>
-                                <img src=""> SPI is made up of :<br>
+                                <strong>SPI Bus</strong> - It refers to the physical connections allowing the data to move between the slave devices and master device.<br> SPI is made up of :<br>
                                 <ol>
                                     <li>Slave Select(SS) - Allows the master to communicate to a specific slave.</li>
                                     <li>Master Out Slave In(MOSI) - Allows communication from Master to slave.</li>
@@ -93,9 +99,12 @@
                         </ol>
                     </li>
                     <li>
-                        <strong>UART</strong><br> It allows for asynchronous serial communication between devices.UART is a block of circuitry responsible for implementing serial communication as it acts as an intermediary between parallel and serial
-                        interfaces. On one end of the UART is a bus of 8 or so data lines and control pins and the other is the two serial wires, RX and TX (Receiver and Transmitter)<br>
-                        <img src=""><br> Although it has been greatly replaced by SPI and I2Cs, it's widely used for lower-speed applications because it is very simple, low-cost and easy to implement.<br>
+                        <strong>UART</strong><br>
+                        <div class="Pic">
+                            <img src="Pictures\uart.png">
+                        </div> It allows for asynchronous serial communication between devices.UART is a block of circuitry responsible for implementing serial communication as it acts as an intermediary between parallel and serial interfaces. On one
+                        end of the UART is a bus of 8 or so data lines and control pins and the other is the two serial wires, RX and TX (Receiver and Transmitter)<br>
+                        <br> Although it has been greatly replaced by SPI and I2Cs, it's widely used for lower-speed applications because it is very simple, low-cost and easy to implement.<br>
                         <h3>Advantages of UART</h3><br>
                         <ol>
                             <li>It supports full-duplex communication.</li>
@@ -115,15 +124,215 @@
 
             <h2>Interfacing the RPi Pico and ESP32 using SPI</h2>
             <p>
-                Coming soon &#128517
+                The following code was used in sending data from a raspberry pi pico (Master) to an ESP32 (slave) using SPI.
+                <h3>Raspberry pi pico code(SPI master)</h3>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    import machine
+    from machine import Pin
+    from time import sleep
+    
+    
+    led=machine.Pin(25,Pin.OUT)
+    # Configure SPI pins
+    spi_sck = Pin(18)
+    spi_tx = Pin(19)
+    spi_rx = Pin(16)
+    slave_select_pin = Pin(10, Pin.OUT)
+    
+    # Initialize SPI as master
+    spi = machine.SPI(0, baudrate=9600, polarity=0, phase=0, sck=spi_sck, mosi=spi_tx, miso=spi_rx)
+    
+    while True:
+        # Select the slave (assert CS)
+        slave_select_pin.value(0)
+        led.value(1)
+        sleep(1)
+        # Send data to the slave
+        tx_data = b'\x10'
+        spi.write(tx_data)
+        print("Sent data from master: ",tx_data[0])
+    
+        # Receive data from the slave
+        rx_data = spi.read(1)
+        
+        # Deselect the slave (deassert CS)
+        slave_select_pin.value(1)
+        led.value(0)
+    
+        print("Received data from slave:", rx_data[0])
+        
+        sleep(1)      
+                        </code>
+                    </pre>
+                </div>
+                <h3>ESP32 code(SPI slave)</h3>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    #include &ltSPI.h&gt
+
+        const int slaveSelectPin = 5; // GPIO pin connected to slave select (CS)
+        const int led=2;
+        void setup() {
+            Serial.begin(9600);
+            pinMode(slaveSelectPin, OUTPUT);
+            pinMode(led,OUTPUT);
+            
+            SPI.begin(); // Initialize SPI
+            digitalWrite(led,LOW);
+            digitalWrite(slaveSelectPin,HIGH);
+            delay(1000);
+        }
+        
+        void loop() {
+            // Wait for the master to select the slave (CS low)
+            while (digitalRead(slaveSelectPin)) {
+                Serial.print("Waiting .... ");
+                Serial.println(digitalRead(slaveSelectPin));
+                digitalWrite(led,HIGH);
+                delay(1000);
+            }
+            // Send response back to the master
+            uint8_t txData = 0x12;
+            uint8_t rxData=SPI.transfer(txData);
+            Serial.print("Sent data from slave: ");
+            Serial.println(txData);
+        
+            // Receive data from the master
+            Serial.print("Received data from master: ");
+            Serial.println(rxData);
+            // Process received data (e.g., perform an action)
+        
+            
+        
+            // Wait for the master to deselect the slave (CS high)
+            while (!digitalRead(slaveSelectPin)) {
+                digitalWrite(led,LOW);
+                Serial.print("DESELECTING .... ");
+                Serial.println(digitalRead(slaveSelectPin));
+                delay(1000);
+            }
+            Serial.println("---------------------------");
+        }
+                        </code>
+                    </pre>
+                </div>
             </p>
             <h2>Interfacing the RPi Pico and ESP32 using I2C</h2>
             <p>
-                Coming soon &#128517
+                The following code was used in sending data from a raspberry pi pico (Master) to an ESP32 (slave) using I2C.
+                <h3>Raspberry pi pico code (I2C Master)</h3>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    # Raspberry Pi Pico (Master) - MicroPython
+
+    from machine import Pin, SoftI2C
+    import time
+    
+    # Initialize I2C communication
+    i2c = SoftI2C(scl=Pin(5), sda=Pin(4))
+    
+    # I2C slave address of the ESP32
+    slave_address = 0x42
+    
+    def send_data_to_slave(data):
+        try:
+            i2c.writeto(slave_address, data)
+            print(f"Sent data to slave: {data}")
+        except OSError:
+            print("Error sending data to slave.")
+    
+    def main():
+        while True:
+            # Example: Send a byte (0xAA) to the slave
+            send_data_to_slave(b'\xAA')
+            time.sleep(1)
+    
+    if __name__ == "__main__":
+        main()    
+                        </code>
+                    </pre>
+                </div>
+                <h3>ESP32 code (I2C Slave)</h3>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    // ESP32 (Slave) - C
+
+    #include &ltWire.h&gt
+    
+    // I2C address (must match the master's address)
+    #define SLAVE_ADDRESS 0x42
+    
+    void setup() {
+        Wire.begin(21,22,SLAVE_ADDRESS); // Initialize I2C as slave
+        Wire.onReceive(receiveData);
+        Serial.begin(115200);
+    }
+    
+    void receiveData(int byteCount) {
+        while (Wire.available()) {
+            char receivedData = Wire.read();
+            Serial.print("Received data from master: ");
+            Serial.println(receivedData);
+            // Process received data (e.g., control an LED, update sensor readings, etc.)
+        }
+        
+    }
+    
+    void loop() {
+        // Your code here
+        // Continue processing or wait for more data from the master
+    }                                                   
+                        </code>
+                    </pre>
+                </div>
             </p>
             <h2>Interfacing the RPi Pico and ESP32 using Serial Communication.</h2>
             <p>
-                Coming soon &#128517
+                The following code was used in sending data from a raspberry pi pico (Master) to an ESP32 (slave) using UART protocol.
+                <h3>Raspberry pi pico code (UART Master)</h3>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    from machine import UART, Pin
+
+    # Initialize UART
+    uart = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
+    
+    # Send data (master to slave)
+    uart.write("Hello, ESP32!")
+    
+    # Receive data (slave to master)
+    received_data = uart.read()
+    print("Received data from ESP32:", received_data)
+                        </code>
+                    </pre>
+                </div>
+                <h3>ESP32 code (UART Master)</h3>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    #include &ltHardwareSerial.h&gt
+
+        void setup() {
+            Serial.begin(9600); // Initialize UART
+        }
+        
+        void loop() {
+            // Receive data from master (Raspberry Pi Pico)
+            if (Serial.available()) {
+                char receivedChar = Serial.read();
+                // Process received data (e.g., control sensors, LEDs, etc.)
+                // Send response back to the master if needed
+            }
+        }      
+                        </code>
+                    </pre>
+                </div>
             </p>
             <h2>Communication between two raspberry pi pico Ws on the same network.</h2>
             <p>
