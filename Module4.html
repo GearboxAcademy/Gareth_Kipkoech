@@ -39,7 +39,7 @@
                     <li>
                         <strong>I2C</strong><br>
                         <div class="Pic">
-                            <img src="Pictures\i2C.jpeg">
+                            <img src="Pictures\i2c.jpeg">
                         </div> It uses only 2 bi-directional open-drain lines for data transmission called <strong>SDA</strong> and <strong>SCL.</strong><br> SDA(Serial Data)-facilitates the transfer of data.<br> SCL(Serial Clock) - Carries the clock<br>                        I2C operates in 2 modes: <strong>Master mode</strong> and <strong>Slave mode.</strong>
 
                         <h3>Advantages of I2C</h3>
@@ -340,7 +340,96 @@
             </p>
             <h3>Configuring the raspberry pi pico W as a server in a network.</h3>
             <p>
-                Coming soon &#128517
+                Raspberry pi pico W is equiped with wifi hence can act as a server of webpages to clients.This benefit allows us to build websites that allow us to control devices remotely provided there is an internet connection. Internet Of Things uses this ability
+                extensively to allow for wireless communication to take place between devices and their users. Raspberry Pi Pico W when pregrammed as a server using Micropython, results in less bulky code as compared to ESP32 hence RPi Pico W is often
+                preffered in IOT applications.<br>The following code shows the basic structure of a Pico W server that perfoms the action of turning on or off the onboard led. Ater the code has uploaded, proceed to your browser and enter
+                the correct IP Address (printed in the terminal).
+                <div class="Combined">
+                    <pre>
+                        <code>
+    import network
+    import socket
+    from time import sleep
+    from picozero import pico_temp_sensor, pico_led
+    import machine
+
+    ssid = 'GEARBOX MEMBERS'
+    password = 'Members@Gearbox'
+
+    def connect():
+    #Connect to WLAN
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect(ssid, password)
+    while wlan.isconnected() == False:
+        print('Waiting for connection...')
+        sleep(1)
+    ip = wlan.ifconfig()[0]
+    print(f'Connected on {ip}')
+    return ip
+
+    def open_socket(ip):
+    # Open a socket
+    address = (ip,80)
+    connection = socket.socket()
+    connection.bind(address)
+    connection.listen(1)
+    return connection
+
+    def webpage(temperature, state):
+    #Template HTML
+    html = f"""
+            &lt!DOCTYPE html&gt
+            &lthtml&gt
+            &ltform action="./lighton"&gt
+            &ltinput type="submit" value="Light on" /&gt
+            &lt/form&gt
+            &ltform action="./lightoff"&gt
+            &ltinput type="submit" value="Light off" /&gt
+            &lt/form&gt
+            &ltp&gtLED is {state}&lt/p &gt
+            &ltp&gtTemperature is {temperature}&lt/p&gt
+            &lt/body&gt
+            &lt/html&gt
+            """
+    return str(html)
+
+    def serve(connection):
+    #Start a web server
+    state = 'OFF'
+    pico_led.off()
+    temperature = 0
+    while True:
+        client = connection.accept()[0]
+        request = client.recv(1024)
+        request = str(request)
+        
+        try:
+            request = request.split()[1]
+        except IndexError:
+            pass
+        if request == '/lighton?':
+            pico_led.on()
+            state = 'ON'
+        elif request =='/lightoff?':
+            pico_led.off()
+            state = 'OFF'
+        temperature = pico_temp_sensor.temp
+        html = webpage(temperature, state)
+        client.send(html)
+        client.close()
+
+    try:
+    ip = connect()
+    connection = open_socket(ip)
+    serve(connection)
+    print(connection)
+    except KeyboardInterrupt:
+    machine.reset()
+
+                        </code>
+                    </pre>
+                </div>This basic structure remains constant as complexity increases hence it has fairly good scalability properties.
             </p>
             <h3>Configuring the ESP32 as a server in a network.</h3>
             <p>
@@ -349,7 +438,57 @@
 
             <h2>Blynk Cloud Setup using ESP32</h2>
             <p>
-                Coming soon &#128517
+                Blynk is an remote server that allows clients to build simple control panels for their projects without prior knowledge in website design. The panel has buttons sliders and many more which can send data to to your board or read and display data on the
+                panel such as temperature readings.<br> The following is the process of linking your ESP32 to Blynk :
+                <ol>
+                    <li>
+                        Login to your blynk account.
+                    </li>
+                    <li>
+                        Create a new template then proceed to the datastream section and create a pin(digital,analog,virtualpin,input or output) which is used to send or receive data.
+                    </li>
+                    <li>
+                        Proceed to the home section while still in your template and create the control feature you wish to use such as a switch and attach it to a datastream you created. </li>
+                    <li>
+                        Copy your template's authentication token,template name and template id.Save your changes.
+                    </li>
+                    <li>
+                        Proceed to your 'Devices' and create a device from your template.Save it.
+                    </li>
+                    <li>
+                        Proceed to your Arduino IDE and upload the following code to your ESP32.Its a simple code of toggling the onboard LED from Blynk Website.
+                    </li>
+                </ol>
+                <div class="Combined">
+                    <pre>
+                        <code>
+    #define BLYNK_TEMPLATE_ID "TMPL280pQpoeq"
+    #define BLYNK_TEMPLATE_NAME "blinkled"
+    #define BLYNK_AUTH_TOKEN "ZmIs2CUiuUgsSQ5Rud4iohQJVUWS-jBi"
+    
+    #define BLYNK_PRINT Serial
+    #include &ltBlynk.h&gt
+    #include &ltBlynkSimpleEsp32.h&gt
+    #include &ltWiFi.h&gt
+    #include &ltWiFiClient.h&gt
+    
+    // Your WiFi credentials.
+    const char auth[] = BLYNK_AUTH_TOKEN;
+    const char ssid[] = "Your wifi name";
+    const char pass[] = "********";
+    
+    void setup() {
+        Serial.begin(9600);
+        Blynk.begin(auth, ssid, pass,"blynk.cloud",80);
+    }
+    
+    void loop() {
+        Blynk.run();
+        // Your other code here
+    }      
+                        </code>
+                    </pre>
+                </div>
             </p>
         </div>
         <div id="Task2">
