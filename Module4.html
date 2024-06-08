@@ -433,7 +433,333 @@
             </p>
             <h3>Configuring the ESP32 as a server in a network.</h3>
             <p>
-                Coming soon &#128517
+
+                There are 2 types of web servers that can be implemented in ESP 32 :
+                <ol>
+                    <li>HTTP Web Server - It Lacks bi-directional capabilities meaning that multiple devices controlling the same website will fall out of sync.</li>
+                    <li> Web Socket Server It allows us to sync the website state on all devices if one changes something on the website.</li>
+                </ol>The web socket is more reliable in situations where a Single website is accessed by multiple users and ensures that all the users see the same information on the webpage at all times.<br>For this lesson , I used the HTTP Web Server since
+                only one device ( my laptop ) was controlling 2 leds in a circuit .<br><br>There are 2 ways in which a web server can be programmed on the Arduino IDE :
+                <ol>
+                    <li>Using all the code in one file in the IDE.</li>
+                    <li>Using separate files depending on the the programming language before uploading all of them to the ESP32 microcontroller .</li>
+                </ol>
+                <ol>
+                    <li>
+                        <h3>All the code in one file.</h3>
+                        This method is easier to understand but more bulky in terms of the amount of code used . Since all the programming languages are in one file , it becomes harder to read and debug especially if the website is complex . If the website is simple eg . contains
+                        just one button used to toggle an Led,then this methed may be chosen . <br>Steps :<br>
+                        <ol>
+                            <li>Import the required Libraries.ie wifi.h library only .</li>
+                            <li>Create ssid and password variables to store your wifi name and password.</li>
+                            <li>Create Server object and give it a name.</li>
+                            <li>Create a string string variable the the HTTP request </li>
+                            <li>Create string variables to store led states ( can be to store the state of whatever you wish to control e - g- ' on ' state , off state) </li>
+                            <li>Create integer variables to store the Pin numbers of the controlling the leds . </li>
+                            <li>Create a Setup and loop functions.</li>
+                            <li>Within the Setup function :
+                                <ul>
+                                    <li>Initialize the Serial monitor ( to display the led statuses ) </li>
+                                    <li>Initialize the led pins as output ping and set them to ' LOW ' state.</li>
+                                    <li>Initialize the Wifi class so that the ESP32 can connect to the wifi.</li>
+                                </ul>
+                            </li>
+                            <li>Within the Loop function :
+                                <ul>
+                                    <li>Check if the client has connected to the wifi and has accessed website continuing with the rest of the code . </li>
+                                    <li>Read the data from the client , and print it on the Serial monitor ( the led states ) and store it in the state variable created earlier .</li>
+                                    <li>Use if statements to check for specific states ('on' and 'off') and make the required changes on the website e.g change button color.</li>
+                                    <li>Attach all the code used in the website here using the phrase ' Client.println ( " ... " )' for every line of code (HTML, CSS and Javascript).</li>
+                                </ul>
+                            </li>
+                            <li>Upload the code to your ESP32 microcontroller.</li>
+                        </ol>
+                    </li>
+                    <div class="Combined">
+                        <pre>
+                            <code>
+    // Load Wi-Fi library
+    #include &ltWiFi.h&gt
+
+    // Replace with your network credentials
+    const char* ssid = "GEARBOX MEMBERS";
+    const char* password = "Members@Gearbox";
+
+    // Set web server port number to 80
+    WiFiServer server(80);
+
+    // Variable to store the HTTP request
+    String header;
+
+    // Auxiliar variables to store the current output state
+    String output26State = "off";
+    String output27State = "off";
+
+    // Assign output variables to GPIO pins
+    const int output26 = 26;
+    const int output27 = 27;
+
+    // Current time
+    unsigned long currentTime = millis();
+    // Previous time
+    unsigned long previousTime = 0; 
+    // Define timeout time in milliseconds (example: 2000ms = 2s)
+    const long timeoutTime = 2000;
+
+    void setup() {
+    Serial.begin(115200);
+    // Initialize the output variables as outputs
+    pinMode(output26, OUTPUT);
+    pinMode(output27, OUTPUT);
+    // Set outputs to LOW
+    digitalWrite(output26, LOW);
+    digitalWrite(output27, LOW);
+
+    // Connect to Wi-Fi network with SSID and password
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+    }
+    // Print local IP address and start web server
+    Serial.println("");
+    Serial.println("WiFi connected.");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+    server.begin();
+    }
+
+    void loop(){
+    WiFiClient client = server.available();   // Listen for incoming clients
+
+    if (client) {                             // If a new client connects,
+    currentTime = millis();
+    previousTime = currentTime;
+    Serial.println("New Client.");          // print a message out in the serial port
+    String currentLine = "";                // make a String to hold incoming data from the client
+    while (client.connected() && currentTime - previousTime &lt= timeoutTime) {  // loop while the client's connected
+    currentTime = millis();
+    if (client.available()) {             // if there's bytes to read from the client,
+    char c = client.read();             // read a byte, then
+    Serial.write(c);                    // print it out the serial monitor
+    header += c;
+    if (c == '\n') {                    // if the byte is a newline character
+    // if the current line is blank, you got two newline characters in a row.
+    // that's the end of the client HTTP request, so send a response:
+    if (currentLine.length() == 0) {
+    // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
+    // and a content-type so the client knows what's coming, then a blank line:
+    client.println("HTTP/1.1 200 OK");
+    client.println("Content-type:text/html");
+    client.println("Connection: close");
+    client.println();
+
+    // turns the GPIOs on and off
+    if (header.indexOf("GET /26/on") &gt= 0) {
+        Serial.println("GPIO 26 on");
+        output26State = "on";
+        digitalWrite(output26, HIGH);
+    } else if (header.indexOf("GET /26/off") &gt= 0) {
+        Serial.println("GPIO 26 off");
+        output26State = "off";
+        digitalWrite(output26, LOW);
+    } else if (header.indexOf("GET /27/on") &gt= 0) {
+        Serial.println("GPIO 27 on");
+        output27State = "on";
+        digitalWrite(output27, HIGH);
+    } else if (header.indexOf("GET /27/off") &gt= 0) {
+        Serial.println("GPIO 27 off");
+        output27State = "off";
+        digitalWrite(output27, LOW);
+    }
+
+    // Display the HTML web page
+    client.println("&lt!DOCTYPE html&gt&lthtml&gt");
+    client.println("&lgthead&gt&ltmeta name=\"viewport\" content=\"width=device-width, initial-scale=1\"&gt");
+    //client.println("&ltlink rel=\"icon\" href=\"data:,\"&gt");
+    // CSS to style the on/off buttons 
+    // Feel free to change the background-color and font-size attributes to fit your preferences
+    client.println("&ltstyle&gthtml { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}");
+    client.println(".button {
+        background-color: #4CAF50; border: none; color: white; padding: 16px 40px;");} 
+    client.println("text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;");
+    client.println(".button2 {background-color: #555555;}&lt/style&gt&lt/head&gt");
+
+    // Web Page Heading
+    client.println("&ltbody&gt&gth1&gtESP32 Web Server&lt/h1&gt");
+
+    // Display current state, and ON/OFF buttons for GPIO 26  
+    client.println("&ltp&gtGPIO 26 - State " + output26State + "&ltp&gt");
+    // If the output26State is off, it displays the ON button       
+    if (output26State=="off") {
+        client.println("&ltp&gt&lta href=\"/26/on\"&gt&gtbutton class=\"button\"&gtON&lt/button&gt&lt/a&gt&ltp&gt");
+    } else {
+        client.println("&ltp&gt&lta href=\"/26/off\"&gt&ltbutton class=\"button button2\"&gtOFF&lt/button&gt&lt/a&gt&ltp&gt");
+    } 
+        
+    // Display current state, and ON/OFF buttons for GPIO 27  
+    client.println("&ltp&gtGPIO 27 - State " + output27State + "&ltp&gt");
+    // If the output27State is off, it displays the ON button       
+    if (output27State=="off") {
+        client.println("&ltp&gt&lta href=\"/27/on\"&gt&ltbutton class=\"button\"&gtON&lt/button&gt&lt/a&gt&ltp&gt");
+    } else {
+        client.println("&ltp&gt&lta href=\"/27/off\"&gt&ltbutton class=\"button button2\"&gtOFF&lt/button&gt&lt/a&lgt&ltp&gt");
+    }
+    client.println("&lt/body&gt&lt/html&gt");
+
+    // The HTTP response ends with another blank line
+    client.println();
+    // Break out of the while loop
+    break;
+    } else { // if you got a newline, then clear currentLine
+    currentLine = "";
+    }
+    } else if (c != '\r') {  // if you got anything else but a carriage return character,
+    currentLine += c;      // add it to the end of the currentLine
+    }
+    }
+    }
+    // Clear the header variable
+    header = "";
+    // Close the connection
+    client.stop();
+    Serial.println("Client disconnected.");
+    Serial.println("");
+    }
+    }
+
+    </code>
+    </pre>
+                    </div>
+                    <li>
+                        <h3>Code in Separate files .</h3>
+                        This is much more efficient when complex websites are used or when the lines of code are many. It also involves the usage of more libraries that allow the web server to communicate with the various files uploaded to it. The files are organized as shown
+                        below :<br>
+                        <div class="Pic">
+                            <img src="Pictures\esp32_server_separateFiles.webp">
+                        </div><br> Inside the data folder is where we store all the external files used together with the code in the Arduino.<br> Steps: <br>
+                        <ol>
+                            <li>1.Import all the required libraries
+                                <ul>
+                                    <li>Wifi.h allow connection to wifi.</li>
+                                    <li>ESP Async Web Server.h allow creation of server object. </li>
+                                    <li>SPIFFS.h- used to allow the Server to access and coordinate different files of different programming languages.</li>
+                                </ul>
+                            </li>
+                            <li>Create ssid and password variables to store the wifi name and password.</li>
+                            <li>Create variables store the led pin and led state.</li>
+                            <li>Create a server object.</li>
+                            <li>5. Create a function called processor that takes the current led state, prints on the serial monitor and updates the previous state and returns the current led state.</li>
+                            <li>Create a Setup function:<br>
+                                <ul>
+                                    <li>Initialize the a Serial monitor and the led Pin as output.</li>
+                                    <li>Initialize SPIFFS.</li>
+                                    <li>Connect to wifi, using Wif.h , and use a while loop to ensure the code is excecuted only when connected to wifi.</li>
+                                    <li>Create 2 routes that connect to the HTML and CSS files to the arduino code. </li>
+                                    <li>Create 2 routes that check the state of the button from the HTML file and toggle the led accordingly. </li>
+                                    <li>Activate the server.</li>
+                                </ul>
+                            </li>
+                            <li>Create a loop function : Nothing is written here.</li>
+                            <li>Upload your code to the ESP32 microcontroller</li>
+                        </ol>
+                    </li>
+                    <br><strong>NOTE : </strong>Ensure you arange your html css and arduino code files as describes earlier.
+                    <div class="Combined">
+                        <pre>
+                            <code>
+                                
+    // Import required libraries
+    #include "WiFi.h"
+    #include "ESPAsyncWebServer.h"
+    #include "SPIFFS.h"
+    
+    // Replace with your network credentials
+    const char* ssid = "GEARBOX MEMBERS";
+    const char* password = "Members@Gearbox";
+    
+    // Set LED GPIO
+    const int ledPin = 2;
+    // Stores LED state
+    String ledState;
+    
+    // Create AsyncWebServer object on port 80
+    AsyncWebServer server(80);
+    
+    // Replaces placeholder with LED state value
+    String processor(const String& var){
+    Serial.println(var);
+    if(var == "STATE"){
+        if(digitalRead(ledPin)){
+        ledState = "ON";
+        }
+        else{
+        ledState = "OFF";
+        }
+        Serial.print(ledState);
+        return ledState;
+    }
+    return String();
+    }
+    
+    void setup(){
+    // Serial port for debugging purposes
+    Serial.begin(115200);
+    pinMode(ledPin, OUTPUT);
+    
+    // Initialize SPIFFS
+    if(!SPIFFS.begin(true)){
+        Serial.println("An Error has occurred while mounting SPIFFS");
+        return;
+    }
+    
+    // Connect to Wi-Fi
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.println("Connecting to WiFi..");
+    }
+    Serial.println("Connected !");
+    // Print ESP32 Local IP Address
+    Serial.println(WiFi.localIP());
+    
+    // Route for root / web page
+    server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/index.html", String(), false, processor);
+    });
+    
+    // Route to load style.css file
+    server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/style.css", "text/css");
+    });
+    
+    // Route to set GPIO to HIGH
+    server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
+        digitalWrite(ledPin, HIGH);    
+        request->send(SPIFFS, "/index.html", String(), false, processor);
+    });
+    
+    // Route to set GPIO to LOW
+    server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
+        digitalWrite(ledPin, LOW);    
+        request->send(SPIFFS, "/index.html", String(), false, processor);
+    });
+    
+    // Start server
+    server.begin();
+    }
+    
+    void loop(){
+    
+    }
+                              
+                            </code>
+                        </pre>
+                    </div>
+                </ol>
+
             </p>
 
             <h2>Blynk Cloud Setup using ESP32</h2>
