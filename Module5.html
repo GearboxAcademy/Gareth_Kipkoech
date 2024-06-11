@@ -4,7 +4,7 @@
 <head>
     <title>MODULE 5</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="Module-5/Module5.css">
+    <link rel="stylesheet" href="Modules.css">
 </head>
 
 <body>
@@ -217,7 +217,7 @@ while True:
         display.text("CARD",x+2,y+10,z)
         display.text("CLOSER",x-4,y+20,z)
         y=y+diff
-        if y>=35 or y<=0:
+        if y&gt=35 or y&lt=0:
             diff=diff*-1
         display.show()
     sleep(1)
@@ -231,7 +231,13 @@ while True:
         <div id="Task4">
             <h1>Access Control System assessment.</h1>
             <p>
-                The following is the video of the RFID Access control System.<br> Coming soon &#128517
+                The following is the video of the RFID Access control System prototype.<br>
+                <div class="Vid">
+                    <video controls>
+                        <source src="Videos\Access_conrtrol_one.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                </div>
             </p>
         </div>
 
@@ -241,3 +247,5 @@ while True:
     </div>
 
 </body>
+
+</html>
