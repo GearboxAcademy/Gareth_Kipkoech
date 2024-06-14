@@ -3,6 +3,7 @@ body {
     width: 100%;
     font-family: Roboto, Arial;
     font-size: 1.5em;
+    overflow-x: hidden;
 }
 
 p {
@@ -110,4 +111,26 @@ h3 {
 
 code {
     color: rgb(72, 34, 34);
+}
+
+@media screen and (max-width: 550px) {
+    body {
+        font-size: 0.7rem;
+        overflow-x: hidden;
+    }
+    p {
+        margin-left: 0%;
+        margin-right: 0%;
+    }
+    li {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+    .Pic {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid black;
+        width: 90%;
+    }
 }
