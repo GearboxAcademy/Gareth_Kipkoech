@@ -175,22 +175,28 @@
                 <h2>
                     Contact
                 </h2>
-                <p>You can contact me using the following number or email. I f you wish to send me a short message or inquiry,please fill the boxes below and click send.
+                <p>If you wish to send me a short message or inquiry, please fill the boxes below and click send.
                 </p>
                 <section>
-                    <form action="">
+                    <form id="form" action="">
                         <label for="name">Name</label><br>
                         <input type="text" id="name" name="name" placeholder="John Doe"><br>
                         <label for="email">Email Address</label><br>
-                        <input type="text" id="email" name="email" placeholder="Example@gmail.com"><br>
-
-                        <textarea id="message" placeholder="Message"></textarea>
-                        <input id="submit" type="submit" value="Send">
+                        <input type="text" id="email" name="email" placeholder="Your@gmail.com"><br>
+                        <label for="message">Message</label><br>
+                        <textarea type="text" id="message" placeholder="Message" name="message"></textarea>
+                        <input id="button" type="submit" value="Send">
                     </form>
                 </section>
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script type="text/javascript">
+        emailjs.init('mLCWYcP63DDXH1IzF')
+    </script>
+    <script src="sendEmail.js"></script>
 </body>
 
 </html>
