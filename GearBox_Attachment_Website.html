@@ -175,12 +175,23 @@
                 </div>
             </div>
             <div class="col form">
-                <form>
-                    <input type="text" placeholder="Name*" required>
-                    <input type="email" placeholder="Email*" required>
-                    <textarea placeholder="Message*" required></textarea>
-                    <button id="submit" type="submit">Send Message</button>
+                <form id="form">
+
+                    <div class="field">
+
+                        <input type="text" name="name" id="name" placeholder="Your Name">
+                    </div>
+                    <div class="field">
+
+                        <input type="text" name="email" id="email" placeholder="YourEmail@gmail.com">
+                    </div>
+                    <div class="field">
+
+                        <input type="text" name="message" id="message" placeholder="Your message">
+                    </div>
+                    <input type="submit" id="button" value="Send Email">
                 </form>
+
             </div>
         </div>
     </section>
@@ -195,6 +206,11 @@
         </div>
     </footer>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        emailjs.init('mLCWYcP63DDXH1IzF')
+    </script>
+    <script src="sendEmail.js"></script>
 </body>
 
 </html>
