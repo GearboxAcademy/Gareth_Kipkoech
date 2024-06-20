@@ -261,6 +261,10 @@
         align-items: center;
     }
     
+    form input {
+        height: 2em;
+    }
+    
     form input,
     form textarea {
         width: 50%;
