@@ -440,7 +440,14 @@
         </div>
     </div>
     <script src="slider.js"></script>
-    <script src="module.js"></script>
+    <script>
+        //for visuals
+        const div = document.getElementsByTagName("div");
+        for (let i = 1; i < 8; i++) {
+            divs = document.getElementById("Task" + i);
+            divs.classList.add("view");
+        }
+    </script>
 </body>
 
 </html>
